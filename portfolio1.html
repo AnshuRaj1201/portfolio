@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ANSHU RAJ — Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#05060a;
+    --panel:#0b0e17;
+    --panel-2:#0f1320;
+    --text:#e8f1ff;
+    --text-dim:#7b8aa6;
+    --accent:#4fd8ff;
+    --accent-2:#8b5cf6;
+    --accent-dim:rgba(79,216,255,0.12);
+    --border:#1c2333;
+    --display:'Orbitron', sans-serif;
+    --sans:'Rajdhani', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--sans); font-size:17px;
+    line-height:1.6; overflow-x:hidden; position:relative;
+  }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* faint scanline + grid texture, static (no motion) */
+  body::before{
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(79,216,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,216,255,0.05) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  }
+  body::after{
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+  }
+
+  /* blue cursor light that tracks the mouse */
+  #cursor-light{
+    position:fixed;
+    top:0; left:0;
+    width:460px; height:460px;
+    margin-left:-230px; margin-top:-230px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(79,216,255,0.20) 0%, rgba(79,216,255,0.07) 40%, transparent 70%);
+    filter:blur(12px);
+    z-index:0;
+    pointer-events:none;
+    transform:translate(-1000px,-1000px);
+    transition:opacity .3s ease;
+    opacity:0;
+    will-change:transform;
+  }
+
+  nav{
+    position:sticky; top:0; z-index:50; display:flex; justify-content:space-between; align-items:center;
+    padding:20px 24px; background:rgba(5,6,10,0.75); backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
+  }
+  .logo{ font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.08em; color:var(--accent); }
+  .nav-links{ display:flex; gap:30px; font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); }
+  .nav-links a:hover{ color:var(--accent); }
+
+  /* ---------- HERO ---------- */
+  header.hero{ position:relative; z-index:1; padding:90px 0 60px; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
+  .kicker{
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);
+    display:inline-flex; align-items:center; gap:8px; margin-bottom:22px; padding:6px 14px;
+    border:1px solid var(--border); border-radius:999px; background:var(--accent-dim);
+  }
+  .kicker .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+  h1{ font-family:var(--display); font-weight:700; font-size:clamp(2.2rem,4.6vw,3.4rem); line-height:1.15; }
+  h1 .hl{ color:var(--accent); text-shadow:0 0 24px rgba(79,216,255,0.5); }
+  .hero p{ margin-top:22px; max-width:52ch; color:var(--text-dim); font-size:1.1rem; }
+  .hero-cta{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{ font-family:var(--mono); font-size:13px; letter-spacing:.03em; padding:14px 26px; border-radius:4px; transition:all .25s ease; }
+  .btn-primary{ background:var(--accent); color:#05060a; box-shadow:0 0 24px rgba(79,216,255,0.35); }
+  .btn-primary:hover{ box-shadow:0 0 36px rgba(79,216,255,0.6); transform:translateY(-2px); }
+  .btn-ghost{ border:1px solid var(--border); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+
+  /* photo frame with rotating hologram ring + floating AI badge */
+  .photo-wrap{ position:relative; width:100%; max-width:340px; margin:0 auto; aspect-ratio:1; }
+  .ring{
+    position:absolute; inset:-14px; border-radius:50%;
+    border:1px dashed rgba(79,216,255,0.5);
+    animation:spin 18s linear infinite;
+  }
+  .ring2{
+    position:absolute; inset:-30px; border-radius:50%;
+    border:1px solid rgba(139,92,246,0.3);
+    animation:spin 26s linear infinite reverse;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .photo-frame{
+    position:relative; width:100%; height:100%; border-radius:50%; overflow:hidden;
+    border:2px solid var(--accent); box-shadow:0 0 40px rgba(79,216,255,0.25), inset 0 0 30px rgba(79,216,255,0.1);
+    background:var(--panel); display:flex; align-items:center; justify-content:center;
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-placeholder{ text-align:center; padding:20px; color:var(--text-dim); font-family:var(--mono); font-size:12px; }
+  .photo-placeholder svg{ width:64px; height:64px; margin-bottom:12px; opacity:.6; }
+
+  .ai-badge{
+    position:absolute; bottom:6px; right:6px; width:58px; height:58px; border-radius:50%;
+    background:var(--panel-2); border:1px solid var(--accent); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 20px rgba(79,216,255,0.4); animation:float 3.5s ease-in-out infinite;
+  }
+  @keyframes float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+
+  /* ---------- AI TERMINAL PANEL ---------- */
+  .terminal{
+    position:relative; z-index:1; margin-top:70px; background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; overflow:hidden; box-shadow:0 0 40px rgba(79,216,255,0.06);
+  }
+  .terminal-head{ display:flex; align-items:center; gap:8px; padding:12px 18px; border-bottom:1px solid var(--border); background:var(--panel-2); }
+  .terminal-head span{ width:10px; height:10px; border-radius:50%; background:var(--border); }
+  .terminal-head .label{ margin-left:10px; font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:.05em; }
+  .terminal-body{ padding:26px 24px; font-family:var(--mono); font-size:14px; color:var(--accent); min-height:180px; }
+  .terminal-body .line{ opacity:0; white-space:pre-wrap; }
+  .terminal-body .line.shown{ opacity:1; }
+  .terminal-body .line .k{ color:var(--text-dim); }
+  .cursor{ display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:middle; animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- SECTIONS ---------- */
+  section{ position:relative; z-index:1; padding:100px 0; border-top:1px solid var(--border); }
+  .section-label{ font-family:var(--mono); font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
+  .section-title{ font-family:var(--display); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.2rem); margin-bottom:44px; }
+
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .about-grid p{ color:var(--text-dim); margin-bottom:16px; }
+  .skill{ margin-bottom:18px; }
+  .skill-top{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-bottom:6px; }
+  .skill-bar{ height:6px; border-radius:3px; background:var(--panel-2); border:1px solid var(--border); overflow:hidden; }
+  .skill-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow:0 0 10px rgba(79,216,255,0.6); transition:width 1.4s cubic-bezier(.2,.8,.2,1); }
+  @media(max-width:768px){ .about-grid{ grid-template-columns:1fr; } }
+
+  .projects-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .project-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:28px;
+    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  .project-card:hover{ border-color:var(--accent); transform:translateY(-4px); box-shadow:0 12px 30px rgba(79,216,255,0.12); }
+  .project-tag{ font-family:var(--mono); font-size:11px; color:var(--accent); text-transform:uppercase; margin-bottom:12px; display:block; }
+  .project-card h3{ font-family:var(--display); font-size:1.2rem; margin-bottom:10px; }
+  .project-card p{ color:var(--text-dim); font-size:.95rem; margin-bottom:16px; }
+  .project-card a.link{ font-family:var(--mono); font-size:12px; color:var(--text); border-bottom:1px solid var(--accent); padding-bottom:2px; }
+  @media(max-width:700px){ .projects-grid{ grid-template-columns:1fr; } }
+
+  .contact-box{ text-align:center; padding:70px 30px; border:1px solid var(--border); border-radius:12px; background:var(--panel); }
+  .contact-box a.big{ font-family:var(--display); font-weight:700; font-size:clamp(1.6rem,5vw,2.6rem); color:var(--accent); text-shadow:0 0 30px rgba(79,216,255,0.4); }
+  .socials{ margin-top:24px; display:flex; justify-content:center; gap:24px; font-family:var(--mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; }
+  .socials a:hover{ color:var(--accent); }
+
+  footer{ position:relative; z-index:1; padding:30px 0 46px; text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; }
+</style>
+</head>
+<body>
+
+<div id="cursor-light"></div>
+
+<nav>
+  <div class="logo">ANSHU RAJ</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="kicker"><span class="dot"></span> SYSTEM ONLINE</div>
+      <h1>Hi, I'm <span class="hl">ANSHU RAJ</span> — building the future, one interface at a time.</h1>
+      <p>I'm a [Software Engineer] who designs and builds intelligent, elegant digital products. I want to create innovative solutions that make a difference.</p>
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-ghost">Contact Me</a>
+        <a href="D:\Anshu\Portfolio\anshuresume.pdf" download class="btn btn-ghost">Download Resume ↓</a>
+      </div>
+    </div>
+
+    <div class="photo-wrap">
+      <div class="ring"></div>
+      <div class="ring2"></div>
+      <div class="photo-frame">
+        <!-- Replace src below with your own photo, e.g. "images/me.jpg" -->
+        <img src="D:\Anshu\Portfolio\Portfolio.jpg" alt="ANSHU RAJ"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="photo-placeholder" style="display:none;">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="22" r="12" stroke="#4fd8ff" stroke-width="2"/>
+            <path d="M10 56c0-12 10-20 22-20s22 8 22 20" stroke="#4fd8ff" stroke-width="2"/>
+          </svg>
+          Add your photo:<br>images/me.jpg
+        </div>
+      </div>
+      <!-- small AI bot badge, built as plain SVG -->
+      <div class="ai-badge">
+        <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="12" width="28" height="20" rx="6" stroke="#4fd8ff" stroke-width="2"/>
+          <circle cx="15" cy="22" r="2.5" fill="#4fd8ff"/>
+          <circle cx="25" cy="22" r="2.5" fill="#4fd8ff"/>
+          <line x1="20" y1="12" x2="20" y2="6" stroke="#4fd8ff" stroke-width="2"/>
+          <circle cx="20" cy="4" r="2" fill="#4fd8ff"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI terminal panel that types out your details -->
+  <div class="terminal">
+    <div class="terminal-head">
+      <span></span><span></span><span></span>
+      <div class="label">AI_PROFILE_SCAN.exe</div>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <div class="line"><span class="k">&gt; </span>IDENTITY_SCAN.INIT...</div>
+      <div class="line"><span class="k">NAME: </span>ANSHU RAJ</div>
+      <div class="line"><span class="k">ROLE: </span>[Software Engineer — Python , java , HTML/CSS , #C , C++]</div>
+      <div class="line"><span class="k">LOCATION: </span>[ARA, BIHAR]</div>
+      <div class="line"><span class="k">CSE: </span>[2024 - 2028]</div>
+      <div class="line"><span class="k">FOCUS: </span>[AI and Machine Learning]</div>
+      <div class="line"><span class="k">STATUS: </span>Available for new opportunities</div>
+      <div class="line"><span class="cursor"></span></div>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="wrap">
+  <div class="section-label">About</div>
+  <div class="section-title">Behind the interface</div>
+  <div class="about-grid">
+    <div>
+      <p>
+I am  3rd year Computer Science student and software developer passionate about building intelligent, interactive, and user-centric applications. 
+My work spans a diverse range of projects, from practical AI tools like an automated resume builder and an AI storyteller to dynamic applications featuring 
+speech recognition and custom chatbots. Whether I am developing engaging logic games like Hangman or exploring new software solutions, 
+I thrive on bringing creative ideas to life through functional and efficient code.</p>
+      <p>OPEN TO WORK</p>
+    </div>
+    <div>
+      <div class="skill">
+        <div class="skill-top"><span>Python(Numpy,pandas,Jupyter)</span><span>90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-fill="90"></div></div>
+      </div>
+      <div class="skill">
+        <div class="skill-top"><span>Database(mysql)</span><span>85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-fill="85"></div></div>
+      </div>
+      <div class="skill">
+        <div class="skill-top"><span>Java</span><span>75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-fill="75"></div></div>
+      </div> 
+      <div class="skill">
+        <div class="skill-top"><span> #C </span><span>80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-fill="80"></div></div>
+      </div>
+      <div class="skill">
+        <div class="skill-top"><span>AI / ML Tools</span><span>70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-fill="70"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="wrap">
+  <div class="section-label">Work</div>
+  <div class="section-title">Selected projects</div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-tag">Ai Resume Builder</span>
+      <h3>Project One</h3>
+      <p>An AI-powered tool that helps users create professional resumes by analyzing their experience and skills.</p>
+      <a class="link" href="https://github.com/AnshuRaj1201/AI-Resume-Portfolio-Builder.git" target="_blank">View project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Hungman Game</span>
+      <h3>Project Two</h3>
+      <p>A classic hangman game implemented with HTML, CSS, and JavaScript, featuring a responsive design and dynamic difficulty levels.</p>
+      <a class="link" href="https://github.com/AnshuRaj1201/CodeAlpha_HungmanGame.git" target="_blank">View project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Movie Recommendation System</span>
+      <h3>Project Three</h3>
+      <p>A lightweight content-based movie recommendation engine built with Python. It uses TF-IDF vectorization and cosine similarity to suggest movies based on genre similarity — no ratings or user history needed.</p>
+      <a class="link" href="https://github.com/AnshuRaj1201/Codec_MovieRecommendation.git" target="_blank">View project →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag">Fitness Buddy</span>
+      <h3>Project Four</h3>
+      <p>An intelligent, conversational AI fitness coach built on IBM Cloud Lite — providing personalized workouts, nutrition guidance, motivation, and habit tracking — available 24/7, completely free.</p>
+      <a class="link" href="https://github.com/AnshuRaj1201/FItness_Buddy.git" target="_blank">View project →</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="section-label">Contact</div>
+  <div class="contact-box">
+    <a class="big" href="mailto:anshuraj12012007@email.com">anshuraj12012007@email.com</a>
+    <div class="socials">
+      <a href="https://github.com/AnshuRaj1201" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/anshuraj1201" target="_blank">LinkedIn</a>
+      <a href="https://www.instagram.com/noway.anshu/" target="_blank">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Anshu Raj. System status: Hacked.</footer>
+
+<script>
+  // ---------- blue cursor light that tracks the mouse ----------
+  const light = document.getElementById('cursor-light');
+  let hasMoved = false;
+  window.addEventListener('mousemove', e => {
+    light.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    if (!hasMoved){ hasMoved = true; light.style.opacity = '1'; }
+  });
+  window.addEventListener('mouseleave', () => { light.style.opacity = '0'; });
+
+  // ---------- AI terminal typewriter boot sequence ----------
+  const lines = document.querySelectorAll('#terminalBody .line');
+  lines.forEach((line, i) => {
+    setTimeout(() => line.classList.add('shown'), i * 500);
+  });
+
+  // ---------- animate skill bars when About section scrolls into view ----------
+  const fills = document.querySelectorAll('.skill-fill');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.style.width = entry.target.dataset.fill + '%';
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  fills.forEach(f => io.observe(f));
+</script>
+
+</body>
+</html>
