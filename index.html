@@ -4,6 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ANSHU RAJ — Portfolio</title>
+<meta name="description" content="Anshu Raj — Computer Science student and software developer building AI tools, web apps, and intelligent systems with Python, Java, and modern web technologies.">
+<meta property="og:title" content="Anshu Raj — Portfolio">
+<meta property="og:description" content="Computer Science student and software developer building AI tools, web apps, and intelligent systems.">
+<meta property="og:type" content="website">
+<!-- After you deploy, replace this with your full live image URL, e.g. https://your-site.vercel.app/Portfolio.jpg -->
+<meta property="og:image" content="Portfolio.jpg">
+
+<!-- Favicon: simple AI-chip icon, matches the site's accent color, no separate image file needed -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='6' y='12' width='28' height='20' rx='6' fill='none' stroke='%234fd8ff' stroke-width='3'/%3E%3Ccircle cx='15' cy='22' r='2.5' fill='%234fd8ff'/%3E%3Ccircle cx='25' cy='22' r='2.5' fill='%234fd8ff'/%3E%3Cline x1='20' y1='12' x2='20' y2='6' stroke='%234fd8ff' stroke-width='3'/%3E%3Ccircle cx='20' cy='4' r='2.5' fill='%234fd8ff'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -82,11 +91,13 @@
   h1{ font-family:var(--display); font-weight:700; font-size:clamp(2.2rem,4.6vw,3.4rem); line-height:1.15; }
   h1 .hl{ color:var(--accent); text-shadow:0 0 24px rgba(79,216,255,0.5); }
   .hero p{ margin-top:22px; max-width:52ch; color:var(--text-dim); font-size:1.1rem; }
+  .now-line{ margin-top:14px; font-family:var(--mono); font-size:13px; color:var(--text-dim); }
+  .now-line .dot2{ color:var(--accent); }
   .hero-cta{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
-  .btn{ font-family:var(--mono); font-size:13px; letter-spacing:.03em; padding:14px 26px; border-radius:4px; transition:all .25s ease; }
+  .btn{ font-family:var(--mono); font-size:13px; letter-spacing:.03em; padding:14px 26px; border-radius:4px; transition:all .25s ease; cursor:pointer; border:none; }
   .btn-primary{ background:var(--accent); color:#05060a; box-shadow:0 0 24px rgba(79,216,255,0.35); }
   .btn-primary:hover{ box-shadow:0 0 36px rgba(79,216,255,0.6); transform:translateY(-2px); }
-  .btn-ghost{ border:1px solid var(--border); color:var(--text); }
+  .btn-ghost{ border:1px solid var(--border); color:var(--text); background:transparent; }
   .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
 
   .photo-wrap{ position:relative; width:100%; max-width:340px; margin:0 auto; aspect-ratio:1; }
@@ -143,6 +154,21 @@
   .skill-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); box-shadow:0 0 10px rgba(79,216,255,0.6); transition:width 1.4s cubic-bezier(.2,.8,.2,1); }
   @media(max-width:768px){ .about-grid{ grid-template-columns:1fr; } }
 
+  /* tech stack badges */
+  .tech-badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+  .tech-badges img{ height:28px; border-radius:4px; }
+
+  /* GitHub stats panel */
+  .github-panel{ margin-top:40px; }
+  .github-panel img{ width:100%; max-width:480px; border-radius:10px; border:1px solid var(--border); }
+
+  /* certifications */
+  .cert-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .cert-card{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:22px; }
+  .cert-card h4{ font-family:var(--display); font-size:1rem; margin-bottom:6px; color:var(--text); }
+  .cert-card p{ font-family:var(--mono); font-size:12px; color:var(--text-dim); }
+  @media(max-width:700px){ .cert-grid{ grid-template-columns:1fr; } }
+
   .projects-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
   .project-card{
     background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:28px;
@@ -175,6 +201,22 @@
   .form-note{ font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-top:14px; }
 
   footer{ position:relative; z-index:1; padding:30px 0 46px; text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; }
+
+  /* resume preview modal */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:200; background:rgba(5,6,10,0.85);
+    backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:24px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; width:100%; max-width:800px;
+    height:85vh; display:flex; flex-direction:column; overflow:hidden;
+  }
+  .modal-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid var(--border); }
+  .modal-head span{ font-family:var(--mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; }
+  .modal-close{ background:none; border:1px solid var(--border); color:var(--text); border-radius:4px; padding:6px 12px; font-family:var(--mono); font-size:12px; cursor:pointer; }
+  .modal-close:hover{ border-color:var(--accent); color:var(--accent); }
+  .modal-box iframe{ flex:1; border:none; width:100%; }
 </style>
 </head>
 <body>
@@ -185,6 +227,7 @@
   <div class="logo">ANSHU RAJ</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#certs">Certs</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#feedback">Feedback</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -196,11 +239,13 @@
     <div>
       <div class="kicker"><span class="dot"></span> SYSTEM ONLINE</div>
       <h1>Hi, I'm <span class="hl">ANSHU RAJ</span> — building the future, one interface at a time.</h1>
-      <p>I'm a [Software Engineer] who designs and builds intelligent, elegant digital products. I want to create innovative solutions that make a difference.</p>
+      <p>I'm a [Computer Science Engineer Student] who designs and builds intelligent, elegant digital products. I want to create innovative solutions that make a difference.</p>
+      <div class="now-line"><span class="dot2">●</span> Currently exploring: New Opportunities To Work With You</div>
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary">View Work</a>
         <a href="#contact" class="btn btn-ghost">Contact Me</a>
         <a href="resume.pdf" download class="btn btn-ghost">Download Resume ↓</a>
+        <button class="btn btn-ghost" onclick="document.getElementById('resumeModal').classList.add('open')">Preview Resume</button>
       </div>
     </div>
 
@@ -254,11 +299,24 @@
   <div class="about-grid">
     <div>
       <p>
-I am  3rd year Computer Science student and software developer passionate about building intelligent, interactive, and user-centric applications. 
+I am  3rd year B.Tech{CSE} student and software developer passionate about building intelligent, interactive, and user-centric applications. 
 My work spans a diverse range of projects, from practical AI tools like an automated resume builder and an AI storyteller to dynamic applications featuring 
 speech recognition and custom chatbots. Whether I am developing engaging logic games like Hangman or exploring new software solutions, 
 I thrive on bringing creative ideas to life through functional and efficient code.</p>
       <p>OPEN TO WORK</p>
+
+      <div class="tech-badges">
+        <img src="https://img.shields.io/badge/Python-05060a?style=for-the-badge&logo=python&logoColor=4fd8ff" alt="Python">
+        <img src="https://img.shields.io/badge/Java-05060a?style=for-the-badge&logo=openjdk&logoColor=4fd8ff" alt="Java">
+        <img src="https://img.shields.io/badge/MySQL-05060a?style=for-the-badge&logo=mysql&logoColor=4fd8ff" alt="MySQL">
+        <img src="https://img.shields.io/badge/HTML5-05060a?style=for-the-badge&logo=html5&logoColor=4fd8ff" alt="HTML5">
+        <img src="https://img.shields.io/badge/CSS3-05060a?style=for-the-badge&logo=css3&logoColor=4fd8ff" alt="CSS3">
+        <img src="https://img.shields.io/badge/GitHub-05060a?style=for-the-badge&logo=github&logoColor=4fd8ff" alt="GitHub">
+      </div>
+
+      <div class="github-panel">
+        <img src="https://github-readme-stats.vercel.app/api?username=AnshuRaj1201&show_icons=true&theme=dark&bg_color=0b0e17&title_color=4fd8ff&icon_color=4fd8ff&text_color=e8f1ff&border_color=1c2333" alt="GitHub Stats">
+      </div>
     </div>
     <div>
       <div class="skill">
@@ -281,6 +339,29 @@ I thrive on bringing creative ideas to life through functional and efficient cod
         <div class="skill-top"><span>AI / ML Tools</span><span>70%</span></div>
         <div class="skill-bar"><div class="skill-fill" data-fill="70"></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs" class="wrap">
+  <div class="section-label">Certifications</div>
+  <div class="section-title">Achievements &amp; badges</div>
+  <div class="cert-grid">
+    <div class="cert-card">
+      <h4>[ Agentic AI ]</h4>
+      <p>[IBM SkillsBuild] · [June, 2026]</p>
+    </div>
+    <div class="cert-card">
+      <h4>[ Artificial Intelligence ]</h4>
+      <p>[Codec Technologies] · [July, 2026]</p>
+    </div>
+    <div class="cert-card">
+      <h4>[ Generative AI ]</h4>
+      <p>[Devtown] · [March, 2026]</p>
+    </div>
+    <div class="cert-card">
+      <h4>[ Afective Computing ]</h4>
+      <p>[NPTEL] · [April, 2026 ]</p>
     </div>
   </div>
 </section>
@@ -351,6 +432,17 @@ I thrive on bringing creative ideas to life through functional and efficient cod
 
 <footer>© 2026 Anshu Raj. System status: Hacked.</footer>
 
+<!-- resume preview modal -->
+<div class="modal-overlay" id="resumeModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>anshuresume.pdf</span>
+      <button class="modal-close" onclick="document.getElementById('resumeModal').classList.remove('open')">Close ✕</button>
+    </div>
+    <iframe src="anshuresume.pdf"></iframe>
+  </div>
+</div>
+
 <script>
   const light = document.getElementById('cursor-light');
   let hasMoved = false;
@@ -392,6 +484,11 @@ I thrive on bringing creative ideas to life through functional and efficient cod
     });
   }, { threshold: 0.4 });
   fills.forEach(f => io.observe(f));
+
+  // close resume modal by clicking outside the box
+  document.getElementById('resumeModal').addEventListener('click', function(e){
+    if (e.target === this) this.classList.remove('open');
+  });
 </script>
 
 </body>
