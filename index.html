@@ -33,7 +33,6 @@
   ul{ list-style:none; }
   .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
 
-  /* faint scanline + grid texture, static (no motion) */
   body::before{
     content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
     background-image:
@@ -47,7 +46,6 @@
     background:repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
   }
 
-  /* blue cursor light that tracks the mouse */
   #cursor-light{
     position:fixed;
     top:0; left:0;
@@ -72,7 +70,6 @@
   .nav-links{ display:flex; gap:30px; font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); }
   .nav-links a:hover{ color:var(--accent); }
 
-  /* ---------- HERO ---------- */
   header.hero{ position:relative; z-index:1; padding:90px 0 60px; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
   .kicker{
@@ -92,7 +89,6 @@
   .btn-ghost{ border:1px solid var(--border); color:var(--text); }
   .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
 
-  /* photo frame with rotating hologram ring + floating AI badge */
   .photo-wrap{ position:relative; width:100%; max-width:340px; margin:0 auto; aspect-ratio:1; }
   .ring{
     position:absolute; inset:-14px; border-radius:50%;
@@ -121,7 +117,6 @@
   }
   @keyframes float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
 
-  /* ---------- AI TERMINAL PANEL ---------- */
   .terminal{
     position:relative; z-index:1; margin-top:70px; background:var(--panel); border:1px solid var(--border);
     border-radius:10px; overflow:hidden; box-shadow:0 0 40px rgba(79,216,255,0.06);
@@ -136,7 +131,6 @@
   .cursor{ display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:middle; animation:blink 1s step-end infinite; }
   @keyframes blink{ 50%{ opacity:0; } }
 
-  /* ---------- SECTIONS ---------- */
   section{ position:relative; z-index:1; padding:100px 0; border-top:1px solid var(--border); }
   .section-label{ font-family:var(--mono); font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
   .section-title{ font-family:var(--display); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.2rem); margin-bottom:44px; }
@@ -166,6 +160,20 @@
   .socials{ margin-top:24px; display:flex; justify-content:center; gap:24px; font-family:var(--mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; }
   .socials a:hover{ color:var(--accent); }
 
+  .feedback-form{ max-width:640px; }
+  .form-row{ margin-bottom:22px; }
+  .form-row label{ display:block; font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); margin-bottom:8px; }
+  .form-row input, .form-row textarea{
+    width:100%; background:var(--panel); border:1px solid var(--border); border-radius:6px;
+    padding:14px 16px; color:var(--text); font-family:var(--sans); font-size:15px; resize:vertical;
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .form-row input::placeholder, .form-row textarea::placeholder{ color:var(--text-dim); opacity:.6; }
+  .form-row input:focus, .form-row textarea:focus{
+    outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,216,255,0.15);
+  }
+  .form-note{ font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-top:14px; }
+
   footer{ position:relative; z-index:1; padding:30px 0 46px; text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; }
 </style>
 </head>
@@ -178,6 +186,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
+    <li><a href="#feedback">Feedback</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -199,7 +208,6 @@
       <div class="ring"></div>
       <div class="ring2"></div>
       <div class="photo-frame">
-        <!-- Replace src below with your own photo, e.g. "images/me.jpg" -->
         <img src="me.jpg" alt="ANSHU RAJ"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <div class="photo-placeholder" style="display:none;">
@@ -210,7 +218,6 @@
           Add your photo:<br>images/me.jpg
         </div>
       </div>
-      <!-- small AI bot badge, built as plain SVG -->
       <div class="ai-badge">
         <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="12" width="28" height="20" rx="6" stroke="#4fd8ff" stroke-width="2"/>
@@ -223,7 +230,6 @@
     </div>
   </div>
 
-  <!-- AI terminal panel that types out your details -->
   <div class="terminal">
     <div class="terminal-head">
       <span></span><span></span><span></span>
@@ -310,6 +316,27 @@ I thrive on bringing creative ideas to life through functional and efficient cod
   </div>
 </section>
 
+<section id="feedback" class="wrap">
+  <div class="section-label">Feedback</div>
+  <div class="section-title">Send me a message</div>
+  <form class="feedback-form" id="feedbackForm">
+    <div class="form-row">
+      <label for="fbName">Your Name</label>
+      <input type="text" id="fbName" name="name" placeholder="Jane Doe" required>
+    </div>
+    <div class="form-row">
+      <label for="fbEmail">Your Email</label>
+      <input type="email" id="fbEmail" name="email" placeholder="jane@email.com" required>
+    </div>
+    <div class="form-row">
+      <label for="fbMessage">Your Question / Feedback</label>
+      <textarea id="fbMessage" name="message" rows="5" placeholder="Write your question or feedback here..." required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Message →</button>
+    <p class="form-note">This opens your email app with the message pre-filled — just hit send.</p>
+  </form>
+</section>
+
 <section id="contact" class="wrap">
   <div class="section-label">Contact</div>
   <div class="contact-box">
@@ -325,7 +352,6 @@ I thrive on bringing creative ideas to life through functional and efficient cod
 <footer>© 2026 Anshu Raj. System status: Hacked.</footer>
 
 <script>
-  // ---------- blue cursor light that tracks the mouse ----------
   const light = document.getElementById('cursor-light');
   let hasMoved = false;
   window.addEventListener('mousemove', e => {
@@ -334,13 +360,28 @@ I thrive on bringing creative ideas to life through functional and efficient cod
   });
   window.addEventListener('mouseleave', () => { light.style.opacity = '0'; });
 
-  // ---------- AI terminal typewriter boot sequence ----------
+  const feedbackForm = document.getElementById('feedbackForm');
+  feedbackForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('fbName').value;
+    const email = document.getElementById('fbEmail').value;
+    const message = document.getElementById('fbMessage').value;
+
+    const subject = encodeURIComponent('Portfolio feedback from ' + name);
+    const body = encodeURIComponent(
+      'Name: ' + name + '\n' +
+      'Email: ' + email + '\n\n' +
+      'Message:\n' + message
+    );
+
+    window.location.href = 'mailto:anshuraj12012007@email.com?subject=' + subject + '&body=' + body;
+  });
+
   const lines = document.querySelectorAll('#terminalBody .line');
   lines.forEach((line, i) => {
     setTimeout(() => line.classList.add('shown'), i * 500);
   });
 
-  // ---------- animate skill bars when About section scrolls into view ----------
   const fills = document.querySelectorAll('.skill-fill');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
