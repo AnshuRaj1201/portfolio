@@ -162,6 +162,20 @@
   .github-panel{ margin-top:40px; }
   .github-panel img{ width:100%; max-width:480px; border-radius:10px; border:1px solid var(--border); }
 
+  .linkedin-panel{
+  margin-top:40px; max-width:480px; background:var(--panel); border:1px solid var(--border);
+  border-radius:10px; padding:22px 24px;
+}
+.li-top{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.li-label{ font-family:var(--display); font-size:14px; font-weight:700; color:var(--text); }
+.li-stats{ display:flex; gap:28px; margin-bottom:18px; }
+.li-stat{ display:flex; flex-direction:column; }
+.li-num{ font-family:var(--display); font-size:20px; font-weight:700; color:var(--accent); }
+.li-tag{ font-family:var(--mono); font-size:11px; color:var(--text-dim); text-transform:uppercase; margin-top:2px; }
+.li-btn{
+  display:inline-block; font-family:var(--mono); font-size:12px; color:var(--accent);
+  border-bottom:1px solid var(--accent); padding-bottom:2px;
+}
   /* certifications */
   .cert-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
   .cert-card{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:22px; }
@@ -314,9 +328,18 @@ I thrive on bringing creative ideas to life through functional and efficient cod
         <img src="https://img.shields.io/badge/GitHub-05060a?style=for-the-badge&logo=github&logoColor=4fd8ff" alt="GitHub">
       </div>
 
-      <div class="github-panel">
-        <img src="https://github-readme-stats.vercel.app/api?username=AnshuRaj1201&show_icons=true&theme=dark&bg_color=0b0e17&title_color=4fd8ff&icon_color=4fd8ff&text_color=e8f1ff&border_color=1c2333" alt="GitHub Stats">
-      </div>
+     <div class="linkedin-panel">
+  <div class="li-top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4fd8ff"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <span class="li-label">LinkedIn</span>
+  </div>
+  <div class="li-stats">
+    <div class="li-stat"><span class="li-num">250+</span><span class="li-tag">Connections</span></div>
+    <div class="li-stat"><span class="li-num">12</span><span class="li-tag">Endorsements</span></div>
+    <div class="li-stat"><span class="li-num">Open</span><span class="li-tag">To Work</span></div>
+  </div>
+  <a href="https://linkedin.com/in/anshuraj1201" target="_blank" class="li-btn">View Full Profile →</a>
+</div>
     </div>
     <div>
       <div class="skill">
